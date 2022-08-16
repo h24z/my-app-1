@@ -13,8 +13,10 @@ services:
     volumes:
       - ./src:/var/www/php
       - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+      - phpmyadmindata:/var/www/phpmyadmin
     depends_on:
       - php
+      - phpmyadmin
 
   # PHP Service
   php:
@@ -33,11 +35,13 @@ services:
   phpmyadmin:
 #    container_name: pma
     restart: unless-stopped
-    image: phpmyadmin/phpmyadmin
-    ports:
-      - 8080:80
+    image: phpmyadmin/phpmyadmin:fpm-alpine
+#    ports:
+#      - 8080:80
     environment:
       PMA_HOST: mysql
+    volumes:
+      - phpmyadmindata:/var/www/html
     depends_on:
       mysql:
         condition: service_healthy
@@ -63,3 +67,4 @@ services:
 volumes:
 
   mysqldata:
+  phpmyadmindata:
