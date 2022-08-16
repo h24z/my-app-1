@@ -19,6 +19,16 @@ services:
 #      - php
       - backend
       - phpmyadmin
+      - frontend
+
+  # Frontend Service
+  frontend:
+    build: ./src/frontend
+    working_dir: /var/www/frontend
+    volumes:
+      - ./src/frontend:/var/www/frontend
+    depends_on:
+      - backend
 
   # Backend Service
   backend:
