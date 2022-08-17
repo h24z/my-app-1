@@ -3,8 +3,19 @@ version: '3.8'
 # Services
 services:
 
+  # Scheduler Service
+  scheduler:
+    restart: unless-stopped
+    image: mcuadros/ofelia
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./.docker/scheduler/config.ini:/etc/ofelia/config.ini
+    depends_on:
+      - backend
+
   # Worker Service
   worker:
+    restart: unless-stopped
     build:
       context: ./src/backend
       target: worker
