@@ -28,7 +28,7 @@ services:
 
   # Redis Commander
   redis-commander:
-    container_name: redis-commander
+#    container_name: redis-commander
     hostname: redis-commander
     image: rediscommander/redis-commander
     restart: always
