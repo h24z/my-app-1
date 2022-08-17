@@ -3,8 +3,30 @@ version: '3.8'
 # Services
 services:
 
+  # Redis Service
+  redis:
+    restart: unless-stopped
+    image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+        - 6379:6379
+    volumes:
+      - redisdata:/data
+
+  # Redis Commander
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander
+    restart: always
+    environment:
+    - REDIS_HOSTS=local:redis:6379
+    ports:
+    - "8081:8081"
+
   # Ngrok Service
   ngrok:
+    restart: unless-stopped
     image: wernight/ngrok
     ports:
     - 4040:4040
@@ -42,6 +64,7 @@ services:
 
   # Frontend Service
   frontend:
+    restart: unless-stopped
     build: ./src/frontend
     working_dir: /var/www/frontend
     volumes:
@@ -51,6 +74,7 @@ services:
 
   # Backend Service
   backend:
+    restart: unless-stopped
     build:
       context: ./src/backend
       args:
@@ -63,6 +87,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+      redis:
+        condition: service_started
 
   # PHP Service
 #  php:
@@ -114,3 +140,4 @@ volumes:
 
   mysqldata:
   phpmyadmindata:
+  redisdata:
