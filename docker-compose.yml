@@ -3,6 +3,19 @@ version: '3.8'
 # Services
 services:
 
+  # Worker Service
+  worker:
+    build:
+      context: ./src/backend
+      target: worker
+      args:
+        HOST_UID: $HOST_UID
+    working_dir: /var/www/backend
+    volumes:
+      - ./src/backend:/var/www/backend
+    depends_on:
+      - backend
+
   # Redis Service
   redis:
     restart: unless-stopped
@@ -77,6 +90,7 @@ services:
     restart: unless-stopped
     build:
       context: ./src/backend
+      target: backend
       args:
         HOST_UID: $HOST_UID
     working_dir: /var/www/backend
