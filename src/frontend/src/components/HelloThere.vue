@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img src="https://tech.osteel.me/images/2020/03/04/hello.gif" alt="Hello there" class="center">
+        <img src="https://cdn.pixabay.com/photo/2014/11/08/01/20/bald-eagle-521492__180.jpg" alt="Hello there" class="center">
         <p>{{ msg }}</p>
     </div>
 </template>
